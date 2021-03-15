@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <input type="text" id="orderIdInput">
+  <button id="rzp-button1">Pay</button>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+      "key": "rzp_test_CoHSMkvQa0TAlu", 
+      "currency": "INR",
+      "name": "PTRO",
+      "description": "Test Credit Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": "CHANGE ME",
+      "handler": function (response) {
+        alert("SUCCESS");
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    document.getElementById('rzp-button1').onclick = function (e) {
+      options.order_id = document.querySelector('#orderIdInput').value;
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
+</body>
+
+</html>
